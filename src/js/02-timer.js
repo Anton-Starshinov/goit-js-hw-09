@@ -1,6 +1,13 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+const startBtn = document.querySelector('button[data-start]');
+const daysEl = document.querySelector('span[data-days]');
+const hoursEl = document.querySelector('span[data-hours]');
+const minutesEl = document.querySelector('span[data-minutes]');
+const secondsEl = document.querySelector('span[data-seconds]');
+startBtn.disabled = true;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -8,10 +15,28 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
+    dateUser = selectedDates[0];
+    if (dateUser < new Date()) {
+      window.alert('Please choose a date in the future');
+    } else {
+      startBtn.disabled = false;
+    }
   },
 };
-
 const fp = flatpickr('#datetime-picker', { ...options });
+
+startBtn.addEventListener('click', () => {
+  const timerId = setInterval(() => {
+    const currentDate = Date.now();
+    const deltaDate = dateUser - currentDate;
+    const dateComponents = convertMs(deltaDate);
+
+    daysEl.textContent = dateComponents.days;
+    hoursEl.textContent = dateComponents.hours;
+    minutesEl.textContent = dateComponents.minutes;
+    secondsEl.textContent = dateComponents.seconds;
+  }, 1000);
+});
 
 function convertMs(ms) {
   const second = 1000;
