@@ -30,6 +30,9 @@ startBtn.addEventListener('click', () => {
     const currentDate = Date.now();
     const deltaDate = dateUser - currentDate;
     const dateComponents = convertMs(deltaDate);
+    if (deltaDate < 0) {
+      return clearInterval(timerId);
+    }
 
     daysEl.textContent = dateComponents.days;
     hoursEl.textContent = dateComponents.hours;
