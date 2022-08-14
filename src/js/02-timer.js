@@ -15,7 +15,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
-    const dateUser = selectedDates[0];
+    dateUser = selectedDates[0];
     if (dateUser < new Date()) {
       window.alert('Please choose a date in the future');
     } else {
