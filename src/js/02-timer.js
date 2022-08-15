@@ -15,8 +15,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     console.log(selectedDates[0]);
-    dateUser = selectedDates[0];
-    if (dateUser < new Date()) {
+    if (selectedDates[0] < new Date()) {
       window.alert('Please choose a date in the future');
     } else {
       startBtn.disabled = false;
@@ -28,8 +27,10 @@ const fp = flatpickr('#datetime-picker', { ...options });
 startBtn.addEventListener('click', () => {
   const timerId = setInterval(() => {
     const currentDate = Date.now();
-    const deltaDate = dateUser - currentDate;
+    const startTime = fp.selectedDates[0];
+    let deltaDate = startTime - currentDate;
     const dateComponents = convertMs(deltaDate);
+
     if (deltaDate < 0) {
       return clearInterval(timerId);
     }
